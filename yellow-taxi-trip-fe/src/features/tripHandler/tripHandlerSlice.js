@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pickupCoor: 0,
-  dropOffCoor: 0,
+  pickupCoor: "",
+  dropOffCoor: "",
+  isPickupCoorInputOnFocus: false,
+  isDropOffCoorInputOnFocus: false,
 };
 
 export const tripHandlerSlice = createSlice({
@@ -15,9 +17,22 @@ export const tripHandlerSlice = createSlice({
     setDropOffCoor: (state, action) => {
       state.dropOffCoor = action.payload;
     },
+    setIsPickupCoorInputOnFocus: (state, action) => {
+      state.isPickupCoorInputOnFocus =
+        action.payload === undefined ? !state.isPickupCoorInputOnFocus : action.payload;
+    },
+    setIsDropOffCoorInputOnFocus: (state, action) => {
+      state.isDropOffCoorInputOnFocus =
+        action.payload === undefined ? !state.isDropOffCoorInputOnFocus : action.payload;
+    },
   },
 });
 
-export const { setPickupCoor, setDropOffCoor } = tripHandlerSlice.actions;
+export const {
+  setPickupCoor,
+  setDropOffCoor,
+  setIsPickupCoorInputOnFocus,
+  setIsDropOffCoorInputOnFocus,
+} = tripHandlerSlice.actions;
 
 export default tripHandlerSlice.reducer;

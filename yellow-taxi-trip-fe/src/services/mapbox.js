@@ -8,7 +8,7 @@ export const mapboxApi = createApi({
       query: ({ profile, coordinates }) =>
         `directions/v5/${profile}/${coordinates}?access_token=${
           import.meta.env.VITE_MAPBOX_ACCESSTOKEN
-        }`,
+        }&geometries=geojson&language=en`,
     }),
   }),
 });
