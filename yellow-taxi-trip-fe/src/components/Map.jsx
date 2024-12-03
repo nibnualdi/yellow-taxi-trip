@@ -11,6 +11,7 @@ import {
   setPickupCoor,
 } from "../features/tripHandler/tripHandlerSlice";
 import { useGetDirectionsQuery } from "../services/mapbox";
+import { useGetTaxiTripByCoordinateQuery } from "../services/taxitrips";
 
 function Map() {
   const mapRef = useRef();
@@ -23,8 +24,21 @@ function Map() {
     {
       profile: "mapbox/driving",
       coordinates: `${pickupCoor};${dropOffCoor}`,
-    }
-    // { skip: pickupCoor && dropOffCoor }
+    },
+    { skip: !pickupCoor || !dropOffCoor }
+  );
+  const {
+    data: taxitripsData,
+    error: taxitripsError,
+    isLoading: taxitripsIsLoading,
+  } = useGetTaxiTripByCoordinateQuery(
+    {
+      pickup_longitude: pickupCoor.split(",")[0],
+      pickup_latitude: pickupCoor.split(",")[1],
+      dropoff_longitude: dropOffCoor.split(",")[0],
+      dropoff_latitude: dropOffCoor.split(",")[1],
+    },
+    { skip: !data }
   );
 
   useEffect(() => {
@@ -160,9 +174,15 @@ function Map() {
     }
   }, [mapRef.current, data, pickupCoor, dropOffCoor, error]);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    if (!data) return;
+    console.log(data, "asdasdasd");
+  }, [data]);
+
+  useEffect(() => {
+    // if (!taxitripsData) return;
+    console.log(taxitripsData, "asdasdasdtaxitripsData");
+  }, [taxitripsData]);
 
   return (
     <div className="w-full h-full">
